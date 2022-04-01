@@ -22,8 +22,12 @@ namespace Rise.ReportConsumer
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+
+                #region Delay The Process
                 await Task.Delay(1000, stoppingToken);
+                #endregion
             }
         }
+
     }
 }

@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rise.Report
+namespace Rise.ReportApi
 {
     public class Startup
     {
@@ -30,12 +30,11 @@ namespace Rise.Report
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.AddSwaggerGen();
+            services.AddSwaggerGen();
             services.AddMongoDbSettings(Configuration);
-            services.AddScoped<IPersonService, PersonManager>();
-            services.AddScoped<IPersonDal, PersonMongoDbDal>();
-            services.AddScoped<IPersonDetailsDal, PersonDetailsMongoDbDal>();
             services.AddScoped<IReportService, ReportManager>();
+            services.AddScoped<IReportDal,  ReportMongoDbDal>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,13 +62,15 @@ namespace Rise.Report
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            }); 
-            //app.UseSwagger();
-            //app.UseSwaggerUI(options =>
-            //{
-            //    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-            //    options.RoutePrefix = string.Empty;
-            //});
+            });
+
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
         }
     }
 }

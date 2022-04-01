@@ -1,24 +1,32 @@
 ﻿using Rise.BusinessLayer.Abstract;
-using System;
+using Rise.DAL;
+using Rise.Entity.Concrete;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Rise.BusinessLayer.Concrete
 {
     public class ReportManager : IReportService
     {
-        public List<string> GetAllReports()
+        private readonly IReportDal _reportDal;
+        public ReportManager(IReportDal reportDal)
         {
-            throw new NotImplementedException();
+            _reportDal = reportDal;
         }
 
-        public object GetReportDetails()
+        public async Task<List<Report>> GetAllReports()
         {
-            throw new NotImplementedException();
+            return await _reportDal.GetAll(null);
         }
 
-        public void ReceiveReportByLocation(string location)
+        public async Task<Report> GetReportDetails(string id)
         {
-            throw new NotImplementedException();
+            return await _reportDal.GetAsync(x => x.Id == id);
+        }
+
+        public async Task<Report> ReceiveReportByLocation(string location)
+        {
+            return await _reportDal.GetAsync(x => x.Location == location);
         }
     }
 }

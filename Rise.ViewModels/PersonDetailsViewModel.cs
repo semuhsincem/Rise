@@ -1,6 +1,7 @@
 ﻿using EnumHelper;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace Rise.ViewModels
 {
@@ -10,6 +11,7 @@ namespace Rise.ViewModels
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Company { get; set; }
+        [JsonPropertyName("PersonDetails")]
         public List<PersonDetailsInfoViewModel> PersonDetailsInfoViewModel { get; set; }
         public PersonDetailsViewModel()
         {
@@ -28,7 +30,6 @@ namespace Rise.ViewModels
     {
         public EContactType  eContactType { get; set; }
         public string Info { get; set; }
-        [DisplayName("Infos")]
         public string PersonDetailsId { get; set; }
     }
 }

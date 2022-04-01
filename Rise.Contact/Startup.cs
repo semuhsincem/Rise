@@ -36,7 +36,6 @@ namespace Rise.Contact
             services.AddScoped<IPersonService, PersonManager>();
             services.AddScoped<IPersonDal, PersonMongoDbDal>();
             services.AddScoped<IPersonDetailsDal, PersonDetailsMongoDbDal>();
-            services.AddScoped<IReportService, ReportManager>();
         }
        
 
@@ -59,7 +58,6 @@ namespace Rise.Contact
             app.UseRouting();
 
             app.UseSwagger();
-            app.UseSwaggerUI();
 
             app.UseAuthorization();
 
