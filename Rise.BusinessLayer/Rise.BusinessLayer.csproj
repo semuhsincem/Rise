@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rise.DAL\Rise.DAL.csproj" />
+    <ProjectReference Include="..\Rise.Entity\Rise.Entity.csproj" />
+    <ProjectReference Include="..\Rise.ViewModels\Rise.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
