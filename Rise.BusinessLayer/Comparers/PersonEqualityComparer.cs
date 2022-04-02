@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Rise.BusinessLayer.Comparers
 {
-    class PersonEqualityComparer : IEqualityComparer<Person>
+    internal class PersonEqualityComparer : IEqualityComparer<Person>
     {
         public bool Equals(Person x, Person y)
         {

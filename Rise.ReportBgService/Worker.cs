@@ -25,32 +25,25 @@ namespace Rise.ReportBgService
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                while (!stoppingToken.IsCancellationRequested)
-                {
-                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                    ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
+                ConnectionFactory factory = new ConnectionFactory() { HostName = "localhost" };
 
-                    using (IConnection connection = factory.CreateConnection())
-                    using (IModel channel = connection.CreateModel())
+                using (IConnection connection = factory.CreateConnection())
+                using (IModel channel = connection.CreateModel())
+                {
+                    EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
+                    channel.BasicConsume("MckReport", false, consumer);
+                    consumer.Received += (sender, e) =>
                     {
-                        EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
-                        channel.BasicConsume("MckReport", false, consumer);
-                        consumer.Received += (sender, e) =>
-                        {
-                            //Thread.Sleep(int.Parse(args[0]));
-                            var data = e.Body.ToArray();
-                            Console.WriteLine(Encoding.UTF8.GetString(data) + " alýndý");
+                        var data = e.Body.ToArray();
+                        Console.WriteLine(Encoding.UTF8.GetString(data) + " alýndý");
                             //Create Excel And Send Email
                             channel.BasicAck(e.DeliveryTag, false);
-                        };
-                        Console.Read();
-                    }
-                    #region Delay The Process
-                    await Task.Delay(1000, stoppingToken);
-                    #endregion
+                    };
+                    Console.Read();
                 }
+                #region Delay The Process
                 await Task.Delay(1000, stoppingToken);
+                #endregion
             }
         }
     }
-}
