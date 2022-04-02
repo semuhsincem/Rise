@@ -87,8 +87,14 @@ namespace Rise.BusinessLayer.Concrete
         {
             try
             {
-                var data = await _personDetailsDal.DeleteAsync(infoId.ToString());
-                return new ServiceResult<PersonDetails>(data, ServiceMessages.Success);
+                var isAvailableData = await _personDetailsDal.GetAsync(x => x.Id == infoId);
+                if (isAvailableData != null)
+                {
+                    var data = await _personDetailsDal.DeleteAsync(infoId.ToString());
+                    return new ServiceResult<PersonDetails>(data, ServiceMessages.Success);
+                }
+                return new ServiceResult<PersonDetails>(isAvailableData, ServiceMessages.PersonDetailNotFound, false);
+                
             }
             catch (Exception)
             {
