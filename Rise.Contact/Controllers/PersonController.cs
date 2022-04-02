@@ -2,7 +2,6 @@
 using Rise.BusinessLayer.Abstract;
 using Rise.Entity.Concrete;
 using Rise.ViewModels;
-using System;
 using System.Threading.Tasks;
 
 namespace Rise.Contact.Controllers

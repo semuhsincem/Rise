@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rise.BusinessLayer.Abstract;
+using Rise.Entity.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,26 @@ namespace Rise.ReportApi.Controllers
         {
             _reportService = reportService;
         }
-        [HttpGet]
-        public string Report()
+        [HttpGet("/RequestReportByLocation/{email_address}/{location}")]
+        public async Task<Report> ReceiveReportByLocation(string email_address, string location)
         {
             return "saf";
         }
+
+        [HttpGet]
+        [Route("/GetAllReports")]
+        public async Task<List<Report>> GetAllReports()
+        {
+            return await _reportService.GetAllReports();
+        }
+
+        [HttpGet]
+        [Route("ChangeReportStatus/{reportId}")]
+        public async Task<Report> ChangeReportStatus(string reportId)
+        {
+            return string.Empty;
+        } 
+
+
     }
 }

@@ -31,5 +31,15 @@ namespace Rise.ViewModels
         public EContactType  eContactType { get; set; }
         public string Info { get; set; }
         public string PersonDetailsId { get; set; }
+        public PersonDetailsInfoViewModel()
+        {
+
+        }
+        public PersonDetailsInfoViewModel(EContactType eContactType, string info, string personDetailsId)
+        {
+            this.eContactType = eContactType;
+            Info = info;
+            PersonDetailsId = personDetailsId;
+        }
     }
 }
