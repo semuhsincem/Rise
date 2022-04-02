@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Rise.DAL\Rise.DAL.csproj" />
     <ProjectReference Include="..\Rise.Entity\Rise.Entity.csproj" />
     <ProjectReference Include="..\Rise.ViewModels\Rise.ViewModels.csproj" />

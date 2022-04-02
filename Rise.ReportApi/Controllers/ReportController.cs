@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rise.BusinessLayer.Abstract;
 using Rise.Entity.Concrete;
 using Rise.ViewModels.ServiceResults;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Rise.ReportApi.Controllers
@@ -22,7 +19,7 @@ namespace Rise.ReportApi.Controllers
         [HttpGet("/RequestReportByLocation/{email_address}/{location}")]
         public async Task<ServiceResult<Report>> ReceiveReportByLocation(string email_address, string location)
         {
-            return new ServiceResult<Report>(null,"s");
+            return await _reportService.ReceiveReportByLocation(location);
         }
 
         [HttpGet]
