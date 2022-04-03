@@ -12,5 +12,7 @@ namespace Rise.BusinessLayer.Abstract
         Task<ServiceResult<PersonDetails>> AddInfo(PersonDetails personDetails);
         Task<ServiceResult<PersonDetails>> RemoveInfo(string infoId);
         Task<ServiceResult<PersonDetailsViewModel>> GetAllDetailsByPersonId(string personId);
+        Task<ServiceResult<ExcelReportViewModel>> GetPersonCountWithLocation(string location);
+        
     }
 }

@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Rise.Core\Rise.Core.csproj" />
     <ProjectReference Include="..\Rise.Helper\Rise.Helper.csproj" />
+    <ProjectReference Include="..\Rise.ViewModels\Rise.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

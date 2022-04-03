@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rise.Core\Rise.Core.csproj" />
-    <ProjectReference Include="..\Rise.Helper\Rise.Helper.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿using Rise.BusinessLayer.Abstract;
+﻿using EnumHelper;
+using MongoDB.Bson;
+using Rise.BusinessLayer.Abstract;
 using Rise.DAL;
 using Rise.DAL.Abstract;
 using Rise.Entity.Concrete;
@@ -7,6 +9,7 @@ using Rise.ViewModels;
 using Rise.ViewModels.ServiceResults;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Rise.BusinessLayer.Concrete
@@ -27,6 +30,7 @@ namespace Rise.BusinessLayer.Concrete
                 var person = await _personDal.GetAsync(x => x.Id == personDetails.PersonId);
                 if (person != null)
                 {
+                    personDetails.Id = ObjectId.GenerateNewId().ToString();
                     var data = await _personDetailsDal.AddAsync(personDetails);
                     return new ServiceResult<PersonDetails>(data, ServiceMessages.Success);
                 }
@@ -45,6 +49,7 @@ namespace Rise.BusinessLayer.Concrete
             {
                 if (person != null)
                 {
+                    person.Id = ObjectId.GenerateNewId().ToString();
                     var res = await _personDal.AddAsync(person);
                     return new ServiceResult<Person>(res, ServiceMessages.Success);
                 }
@@ -83,6 +88,38 @@ namespace Rise.BusinessLayer.Concrete
 
             }
         }
+
+        public async Task<ServiceResult<ExcelReportViewModel>> GetPersonCountWithLocation(string location)
+        {
+            try
+            {
+                ExcelReportViewModel excelReportViewModel = new ExcelReportViewModel(location);
+                //
+                var _phoneCount = 0;
+                var personList = await _personDetailsDal.GetAll(x => x.ContactType == EContactType.Location && x.ContactInfo == location);
+                var personCount = personList.Count;
+
+                excelReportViewModel.PersonCount = personCount;
+                var allPerson = await _personDal.GetAll();
+                foreach (var item in allPerson)
+                {
+                    var personDetails = await _personDetailsDal.GetAll(x => x.PersonId == item.Id);
+                    if (personDetails.Any(x=>x.ContactInfo == location))
+                    {
+                        _phoneCount += personDetails.Where(x => x.ContactType == EContactType.Phone).Select(x => x.ContactInfo).Distinct().Count();
+                    }
+                }
+                excelReportViewModel.PhoneCount = _phoneCount;
+
+                return new ServiceResult<ExcelReportViewModel>(excelReportViewModel, ServiceMessages.Success);
+            }
+            catch (Exception ex)
+            {
+                //logger.Error(ex);
+                return new ServiceResult<ExcelReportViewModel>(null, ServiceMessages.AnErrorOccured, false);
+            }
+        }
+
         public async Task<ServiceResult<PersonDetails>> RemoveInfo(string infoId)
         {
             try

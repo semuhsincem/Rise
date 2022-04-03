@@ -36,8 +36,14 @@ namespace Rise.Contact
             services.AddScoped<IPersonService, PersonManager>();
             services.AddScoped<IPersonDal, PersonMongoDbDal>();
             services.AddScoped<IPersonDetailsDal, PersonDetailsMongoDbDal>();
+            services.AddScoped<IReportService, ReportManager>();
+            services.AddScoped<IReportDal, ReportMongoDbDal>();
+            services.AddSwaggerGen(c =>
+            {
+                c.EnableAnnotations();
+            });
         }
-       
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -72,6 +78,7 @@ namespace Rise.Contact
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 options.RoutePrefix = string.Empty;
+
             });
         }
     }

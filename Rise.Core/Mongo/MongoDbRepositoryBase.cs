@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Rise.Helper;
 using System;
@@ -77,9 +78,9 @@ namespace Rise.Core.Mongo
             return await Collection.FindOneAndDeleteAsync(filter);
         }
 
-        public virtual async Task<List<T>> GetAll(Expression<Func<T, bool>> filter)
+        public virtual async Task<List<T>> GetAll(Expression<Func<T, bool>> filter = null)
         {
-            return await Collection.Find(filter).ToListAsync<T>();
+            return filter == null ? await Collection.Find(new BsonDocument()).ToListAsync<T>() : await Collection.Find(filter).ToListAsync<T>();
         }
     }
 }

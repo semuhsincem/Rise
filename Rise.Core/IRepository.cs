@@ -19,6 +19,6 @@ namespace Rise.Core
         Task<T> DeleteAsync(T entity);
         Task<T> DeleteAsync(TKey id);
         Task<T> DeleteAsync(Expression<Func<T, bool>> predicate);
-        Task<List<T>> GetAll(Expression<Func<T, bool>> filter);
+        Task<List<T>> GetAll(Expression<Func<T, bool>> filter = null);
     }
 }

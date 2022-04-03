@@ -5,6 +5,7 @@ using Rise.DAL;
 using Rise.Entity.Concrete;
 using Rise.Helper.EnumHelper;
 using Rise.Helper.ErrorMessages;
+using Rise.ViewModels;
 using Rise.ViewModels.ServiceResults;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace Rise.BusinessLayer.Concrete
         {
             try
             {
-                var data = await _reportDal.GetAll(null);
+                var data = await _reportDal.GetAll();
                 return new ServiceResult<List<Report>>(data, ServiceMessages.Success);
             }
             catch (Exception ex)
@@ -77,8 +78,9 @@ namespace Rise.BusinessLayer.Concrete
         /// durumunu "tamamlandı" olarak gözlemleyebilmesi gerekmektedir.
         /// </summary>
         /// <param name="location"></param>
+        /// <param name="email"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<Report>> ReceiveReportByLocation(string location)
+        public async Task<ServiceResult<ReportViewModel>> ReceiveReportByLocation(string location,string email)
         {
             try
             {
@@ -90,24 +92,33 @@ namespace Rise.BusinessLayer.Concrete
                     RequestDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm"))
                 });
                 #endregion
+                var newData = new ReportViewModel()
+                {
+                    EmailAddress = email,
+                    Id = data.Id,
+                    eReportType = data.eReportType,
+                    Location = data.Location,
+                    RequestDate = data.RequestDate
+                };
                 #region Publish To Queue
                 var factory = new ConnectionFactory() { HostName = "localhost" };
                 using (IConnection connection = factory.CreateConnection())
                 using (IModel channel = connection.CreateModel())
                 {
                     channel.QueueDeclare(queue: "MckReport", durable: false, exclusive: false, autoDelete: false, arguments: null);
-                    string message = JsonConvert.SerializeObject(data);
+                    string message = JsonConvert.SerializeObject(newData);
                     var body = Encoding.UTF8.GetBytes(message);
 
                     channel.BasicPublish(exchange: "", routingKey: "MckReport", basicProperties: null, body: body);
                 }
                 #endregion
-                return new ServiceResult<Report>(data, ServiceMessages.Success);
+                
+                return new ServiceResult<ReportViewModel>(newData, ServiceMessages.Success);
             }
             catch (Exception ex)
             {
                 //logger.Error(ex);
-                return new ServiceResult<Report>(null, ServiceMessages.AnErrorOccured, false);
+                return new ServiceResult<ReportViewModel>(null, ServiceMessages.AnErrorOccured, false);
             }
         }
     }

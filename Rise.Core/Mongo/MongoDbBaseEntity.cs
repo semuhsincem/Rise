@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Rise.Core.Mongo
 {
@@ -8,6 +9,7 @@ namespace Rise.Core.Mongo
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonId]
         [BsonElement(Order = 0)]
-        public string Id { get; } = ObjectId.GenerateNewId().ToString();
+        [SwaggerSchema(ReadOnly = true)]
+        public string Id { get; set; }// = ObjectId.GenerateNewId().ToString();
     }
 }

@@ -12,10 +12,11 @@ namespace Rise.Contact.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonService _personService;
-
-        public PersonController(IPersonService personService)
+        private readonly IReportService _reportService;
+        public PersonController(IPersonService personService, IReportService reportService)
         {
-            this._personService = personService;
+            _personService = personService;
+            _reportService = reportService;
         }
         [HttpGet]
         [Route("GetAllDetailsByPersonId/{personId}")]
@@ -51,5 +52,15 @@ namespace Rise.Contact.Controllers
         {
             return await _personService.RemoveInfo(infoId);
         }
+
+        
+        //Rehbere Kayıtlı O konumdaki kişi sayısı
+        [HttpGet]
+        [Route("GetPersonCountWithLocation/{location}")]
+        public async Task<ServiceResult<ExcelReportViewModel>> GetPersonCountWithLocation(string location)
+        {
+            return await _personService.GetPersonCountWithLocation(location);
+        }
+
     }
 }

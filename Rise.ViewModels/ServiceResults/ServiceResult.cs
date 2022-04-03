@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Rise.ViewModels.ServiceResults
 {
@@ -23,6 +24,10 @@ namespace Rise.ViewModels.ServiceResults
             Data = data;
             ResultExplanation = resultExp;
             IsSuccess = true;
+        }
+        public ServiceResult()
+        {
+
         }
     }
 }
