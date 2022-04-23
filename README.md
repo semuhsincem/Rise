@@ -8,7 +8,7 @@ REQUIREMENTS:
 
 You must run three projects at the same time(Rise Contact Api,Rise Report Api ve ReportBgService Worker)
 
-You can adding,removing add updating a person with PersonApi.The same time, can add new features.For example; location, phone and email information.
+You can adding,removing and updating a person with PersonApi.The same time, can add new features.For example; location, phone and email information.
 ![image](https://user-images.githubusercontent.com/39440721/161424597-5b8e1b6f-e21c-4b5a-8df2-3b37e085b4d6.png)
 
 The ReportApi can start a report request, change status the report.
